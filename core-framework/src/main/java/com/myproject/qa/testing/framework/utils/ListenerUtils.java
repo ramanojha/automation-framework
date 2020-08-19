@@ -3,6 +3,7 @@ package com.myproject.qa.testing.framework.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,13 +37,13 @@ public class ListenerUtils {
 		ScriptLogger.info();
 		Document document = new Document();
 		try {
-			PdfWriter.getInstance(document, new FileOutputStream(new File(fileName)));
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(new File(fileName)));
 			document.open();
 
 			document.add(setParagraph("Test Result\n\n", Element.ALIGN_CENTER));
 
 			//Layout 001 - Stats Layout.
-			document.add(setStatsLayout001(suite));
+			document.add(setStatsLayout001(writer, suite, false));
 			document.add(setParagraph("\n", Element.ALIGN_CENTER));
 
 			//Layout 001 - XML Parameters
@@ -67,7 +68,7 @@ public class ListenerUtils {
 		}
 
 	}
-
+	
 	private static PdfPTable pasteSuiteXMLdataLayout001(String fileName) throws Exception{
 		//special font sizes
 		Font nameFnt = new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLD, new BaseColor(0, 0, 0)); 
@@ -160,7 +161,7 @@ public class ListenerUtils {
 	}
 
 
-	public static PdfPTable setStatsLayout001(ISuite suite) throws Exception{
+	public static PdfPTable setStatsLayout001(PdfWriter writer, ISuite suite, boolean piechartNeeded) throws Exception{
 		//special font sizes
 		Font nameFnt = new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLD, new BaseColor(0, 0, 0)); 
 		Font headerFnt = new Font(FontFamily.TIMES_ROMAN, 8, Font.BOLD, new BaseColor(0, 0, 0));
@@ -222,7 +223,16 @@ public class ListenerUtils {
 
 		insertCell(table, "Interval(Secs)", Element.ALIGN_LEFT, 1, headerFnt, "Background", lightBlueColor());	
 		insertCell(table, Long.toString(seconds), Element.ALIGN_CENTER, 1, cellFnt);
-
+		
+		if (piechartNeeded) {
+			//Fourth Row
+			Map<String, Integer> passFailSkipsCount = new HashMap<String, Integer>();
+			passFailSkipsCount.put("Passed", passedCnt);
+			passFailSkipsCount.put("Failed", failedCnt);
+			passFailSkipsCount.put("Skipped", skippedCnt);
+			insertCell(table, "PieChart", Element.ALIGN_LEFT, 4, cellFnt);
+			insertImageInCell(table,ChartUtils.generatePieChartInBytes(passFailSkipsCount),Element.ALIGN_CENTER, 2, 84 * 2f, 54 * 2f, 5f);
+		}
 		return table;
 	}
 
@@ -323,7 +333,7 @@ public class ListenerUtils {
 			if((byte[])res.getAttribute("screenshot") !=null){
 				insertCell(table, "", Element.ALIGN_CENTER,1,cellFnt);
 				insertCell(table, "Screenshot", Element.ALIGN_RIGHT,1,cellFnt);
-				insertImageInCell(table, (byte[])res.getAttribute("screenshot"), Element.ALIGN_CENTER, 5);
+				insertImageInCell(table, (byte[])res.getAttribute("screenshot"), Element.ALIGN_CENTER, 5, 192*2f, 108*2f, 10f);
 			}
 		}
 		return table;
@@ -398,11 +408,12 @@ public class ListenerUtils {
 
 	}
 
-	private static void insertImageInCell(PdfPTable table, byte[] screenShot, int align, int mergeColLeftToRight) throws Exception{
+	private static void insertImageInCell(PdfPTable table, byte[] screenShot, int align, int mergeColLeftToRight, float newWidth, float newHeight, float minimumHeight) throws Exception{
 
 		try {
 			Image img = Image.getInstance(screenShot);
-			img.scaleAbsolute(192*2f, 108*2f);
+			img.scaleAbsolute(newWidth, newHeight);
+			//img.scaleAbsolute(192*2f, 108*2f);
 
 			img.setBorder(Rectangle.BOX);
 			img.setBorderColor(BaseColor.BLACK);
@@ -417,7 +428,8 @@ public class ListenerUtils {
 			cell.setColspan(mergeColLeftToRight);
 			//in case there is no text and you wan to create an empty row
 
-			cell.setMinimumHeight(10f);
+			//cell.setMinimumHeight(10f);
+			cell.setMinimumHeight(minimumHeight);
 			cell.setBackgroundColor(lightGreyColor());
 			//add the call to the table
 			table.addCell(cell);
@@ -427,23 +439,23 @@ public class ListenerUtils {
 
 	}
 	
-	private static BaseColor lightRedColor() {
+	public static BaseColor lightRedColor() {
 		return new BaseColor(247, 198, 214);
 	}
 
-	private static BaseColor lightGreenColor() {
+	public static BaseColor lightGreenColor() {
 		return new BaseColor(232, 255, 239);
 	}
 	
-	private static BaseColor lightyellowColor() {
+	public static BaseColor lightyellowColor() {
 		return new BaseColor(243, 250, 199);
 	}
 
-	private static BaseColor lightGreyColor() {
+	public static BaseColor lightGreyColor() {
 		return new BaseColor(245, 239, 239);
 	}
 	
-	private static BaseColor lightBlueColor() {
+	public static BaseColor lightBlueColor() {
 		return new BaseColor(219, 225, 255);
 	}
 	
@@ -453,13 +465,13 @@ public class ListenerUtils {
 		ScriptLogger.info();
 		Document document = new Document();
 		try {
-			PdfWriter.getInstance(document, new FileOutputStream(new File(fileName)));
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(new File(fileName)));
 			document.open();
 
 			document.add(setParagraph("Test Result\n\n", Element.ALIGN_CENTER));
 
 			//Layout 001 - Stats Layout.
-			document.add(setStatsLayout001(suite));
+			document.add(setStatsLayout001(writer, suite , false));
 			document.add(setParagraph("\n", Element.ALIGN_CENTER));
 
 			//Layout 001 - XML Parameters
