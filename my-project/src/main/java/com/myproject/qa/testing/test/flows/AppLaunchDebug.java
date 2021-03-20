@@ -11,9 +11,9 @@ public class AppLaunchDebug extends BaseWebDriver{
 
 	@Test(alwaysRun=true)
 	public static void launchSiteUrl() throws Exception{
-//		ScriptLogger.info();
-//		InstanceAccess.getDriver().get(TestEnvironment.getSiteUrl());
-//		Thread.sleep(3000);
+		ScriptLogger.info();
+		InstanceAccess.getDriver().get(TestEnvironment.getSiteUrl());
+		Thread.sleep(3000);
 	}
 	
 }
