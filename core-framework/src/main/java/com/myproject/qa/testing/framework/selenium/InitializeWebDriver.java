@@ -17,7 +17,7 @@ public class InitializeWebDriver {
 
 	private static WebDriver driver;
 	private static String browser;
-	public static void setDriver(String driverType) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+	public static void setDriver(String driverType, String expPort) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
 		browser = driverType;
 		
 		if(driver == null){
@@ -27,7 +27,7 @@ public class InitializeWebDriver {
 				WebDriverManager.chromedriver().setup();
 				
 				ChromeOptions options = new ChromeOptions();
-				ChromeDriverService service = ChromeDriverService.createDefaultService(); 
+				ChromeDriverService service = ChromeDriverService.createDefaultService();
 				options.addArguments("--disable--notifications");
 				options.addArguments("-incognito");
 				options.addArguments("start-maximized"); 
@@ -41,15 +41,28 @@ public class InitializeWebDriver {
 				prefs.put("download.prompt_for_download", false);
 				prefs.put("download.default_directory", "C:\\TestData\\Downloads");
 				options.setExperimentalOption("prefs", prefs);
-				
-				driver  = new ChromeDriver(service, options); 
-				
+				ChromeDriver d  = new ChromeDriver(service, options); 
+				System.out.println(d.getCapabilities().getCapability("goog:chromeOptions"));
+				driver = d;
 				break;
 				
 			case "firefox":
 				WebDriverManager.firefoxdriver().setup();
 				driver  = new FirefoxDriver();
+				break;
 				
+			case "chrome-debug":
+				//location : C:\Program Files (x86)\Google\Chrome\Application
+				//chrome.exe --remote-debugging-port=2222 --no-default-browser-check --user-data-dir="D:\Git\ChromeDevTool"
+				WebDriverManager.chromedriver().setup();
+				
+				ChromeOptions options1 = new ChromeOptions();
+				options1.setExperimentalOption("debuggerAddress","localhost:"+expPort);
+				options1.asMap();				
+				ChromeDriver dri  = new ChromeDriver(options1); 
+				System.out.println(dri.getCapabilities().getCapability("goog:chromeOptions"));
+				driver  = dri;
+				break;
 			default:
 				break;
 			}

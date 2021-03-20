@@ -14,11 +14,11 @@ public class BaseWebDriver {
 	private static int waitTime;
 
 	@BeforeSuite
-	@Parameters({"env", "browser", "waitTime"})
-	public static void initSetup(@Optional("qa")String env, @Optional("chrome")String browser, @Optional("5")int waitPeriod) throws Exception{
+	@Parameters({"browserPort", "env", "browser", "waitTime"})
+	public static void initSetup(@Optional("No Port")String port,@Optional("qa")String env, @Optional("chrome")String browser, @Optional("5")int waitPeriod) throws Exception{
 		waitTime = waitPeriod;
 		TestEnvironment.setEnvConfigsTest(env);
-		InitializeWebDriver.setDriver(browser);	 
+		InitializeWebDriver.setDriver(browser, port);	 
 	}
 	
 	@AfterSuite
