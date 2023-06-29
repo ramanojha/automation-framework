@@ -1,7 +1,7 @@
 package com.myproject.qa.testing.framework.selenium;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,21 +10,24 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.myproject.qa.testing.framework.logs.ScriptLogger;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class InitializeWebDriver {
 
 	private static WebDriver driver;
 	private static String browser;
-	public static void setDriver(String driverType, String expPort) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
+	public static void setDriver(String driverType, String expPort) throws ClassNotFoundException, InstantiationException, IllegalAccessException, MalformedURLException{
 		browser = driverType;
 		
 		if(driver == null){
 			switch (browser) {
 			case "chrome" :
 				System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
-				WebDriverManager.chromedriver().setup();
+				//WebDriverManager.chromedriver().setup();
 				
 				ChromeOptions options = new ChromeOptions();
 				ChromeDriverService service = ChromeDriverService.createDefaultService();
@@ -41,9 +44,12 @@ public class InitializeWebDriver {
 				prefs.put("download.prompt_for_download", false);
 				prefs.put("download.default_directory", "C:\\TestData\\Downloads");
 				options.setExperimentalOption("prefs", prefs);
-				ChromeDriver d  = new ChromeDriver(service, options); 
-				System.out.println(d.getCapabilities().getCapability("goog:chromeOptions"));
-				driver = d;
+				//ChromeDriver d  = new ChromeDriver(service, options); 
+				//System.out.println(d.getCapabilities().getCapability("goog:chromeOptions"));
+				//driver = d;
+				driver = new RemoteWebDriver(new URL("http://localhost:4444"), options);
+
+				
 				break;
 				
 			case "firefox":

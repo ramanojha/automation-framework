@@ -13,7 +13,7 @@ public class AppLaunch extends BaseWebDriver{
 	public static void launchSiteUrl() throws Exception{
 		ScriptLogger.info();
 		InstanceAccess.getDriver().get(TestEnvironment.getSiteUrl());
-		Thread.sleep(3000);
+		Thread.sleep(50*1000);
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.myproject.qa.testing.framework.selenium;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public class BrowserWait extends InstanceAccess{
 	}
 
 	public static void waitUntilElementIsDisplayed(Object locator, int time) {
-		(new WebDriverWait(driver, time)).until(new ExpectedCondition<Boolean>() {
+		(new WebDriverWait(driver, Duration.ofSeconds(time))).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver d) {
 				try {
 					return Boolean.valueOf(LocatorAccess.getElement(locator).isDisplayed());
@@ -34,7 +35,7 @@ public class BrowserWait extends InstanceAccess{
 	}
 
 	public static void waitUntilElementIsNotDisplayed(Object locator, int time) {
-		(new WebDriverWait(driver, time)).until(new ExpectedCondition<Boolean>() {
+		(new WebDriverWait(driver, Duration.ofSeconds(time))).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver d) {
 				try {
 					return Boolean.valueOf(!LocatorAccess.getElement(locator).isDisplayed());
@@ -50,7 +51,7 @@ public class BrowserWait extends InstanceAccess{
 	}
 
 	public static void waitUntilCountOfElementsPresent(List<WebElement> locators, final int count, int time) {
-		(new WebDriverWait(driver, time)).until(new ExpectedCondition<Boolean>() {
+		(new WebDriverWait(driver, Duration.ofSeconds(time))).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver d) {
 				try {
 					return Boolean.valueOf(locators.size() == count);
@@ -82,7 +83,7 @@ public class BrowserWait extends InstanceAccess{
 	}
 
 	public static void waitUntilIndexedElementIsDisplayed(List<WebElement> locators, final int index, int time) {
-		(new WebDriverWait(driver, time)).until(new ExpectedCondition<Boolean>() {
+		(new WebDriverWait(driver, Duration.ofSeconds(time))).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver d) {
 				try {
 					return Boolean.valueOf(locators.get(index-1).isDisplayed());
@@ -98,7 +99,7 @@ public class BrowserWait extends InstanceAccess{
 	}
 
 	public static void waitUntilPageTitle(final String title, int time) {
-		(new WebDriverWait(driver, time)).until(new ExpectedCondition<Boolean>() {
+		(new WebDriverWait(driver, Duration.ofSeconds(time))).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver d) {
 				try {	
 					return Boolean.valueOf(d.getTitle().trim().contains(title)); 
@@ -128,7 +129,7 @@ public class BrowserWait extends InstanceAccess{
 
 
 	public static void waitUntilText(final String text,	int time) {
-		(new WebDriverWait(driver, time)).until(new ExpectedCondition<Boolean>() {
+		(new WebDriverWait(driver, Duration.ofSeconds(time))).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver d) {
 				try {	return Boolean.valueOf(d.getPageSource().contains(text)); }
 				catch(Exception e) { return Boolean.valueOf(false); }
@@ -144,7 +145,7 @@ public class BrowserWait extends InstanceAccess{
 	}
 
 	public static void waitUntilNotText(final String text,	int time) {
-		(new WebDriverWait(driver, time)).until(new ExpectedCondition<Boolean>() {
+		(new WebDriverWait(driver, Duration.ofSeconds(time))).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver d) {
 				try {	return Boolean.valueOf(!d.getPageSource().contains(text)); }
 				catch(Exception e) { return Boolean.valueOf(false); }
@@ -153,13 +154,13 @@ public class BrowserWait extends InstanceAccess{
 	}
 
 	public static void waitUntilElementIsClickable(Object locator, int time) throws Exception {
-		(new WebDriverWait(driver, time)).until(ExpectedConditions.elementToBeClickable(LocatorAccess.getElement(locator)));
+		(new WebDriverWait(driver, Duration.ofSeconds(time))).until(ExpectedConditions.elementToBeClickable(LocatorAccess.getElement(locator)));
 	}
 
 
 	public static void waitUntilNewWindowIsLoaded(final List<String> existingWindowHandles){
 
-		(new WebDriverWait(driver,waitTime)).until(new ExpectedCondition<Boolean>() {
+		(new WebDriverWait(driver,Duration.ofSeconds(waitTime))).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver d) {       
 				Set<String> windowHandles=d.getWindowHandles();
 				windowHandles.removeAll(existingWindowHandles);
@@ -179,7 +180,7 @@ public class BrowserWait extends InstanceAccess{
 
 
 	public static void waitForAlertBox() {
-		new WebDriverWait(driver,waitTime).until(new ExpectedCondition<Boolean>() {
+		new WebDriverWait(driver,Duration.ofSeconds(waitTime)).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver d) {
 				try{
 					d.switchTo().alert();
@@ -193,7 +194,7 @@ public class BrowserWait extends InstanceAccess{
 	}
 
 	public static void waitUntilAlertBoxIsClosed() {
-		new WebDriverWait(driver,waitTime).until(new ExpectedCondition<Boolean>() {
+		new WebDriverWait(driver,Duration.ofSeconds(waitTime)).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver d) {
 				try{
 					d.switchTo().alert();

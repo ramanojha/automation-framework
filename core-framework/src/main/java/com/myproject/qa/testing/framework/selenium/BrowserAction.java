@@ -11,13 +11,9 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Rotatable;
-import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.support.ui.Select;
 
 import com.myproject.qa.testing.framework.annotations.Aim;
@@ -256,11 +252,11 @@ public class BrowserAction extends InstanceAccess{
 		Thread.sleep(500); 
 	}
 
-	public static ScreenOrientation getDeviceOrientation() throws Exception {
+	/*public static ScreenOrientation getDeviceOrientation() throws Exception {
 		WebDriver d = new Augmenter().augment(driver);
-		Rotatable rotator = ((Rotatable) d);
+		Rotat rotator = (Rotatable) d;
 		return rotator.getOrientation();
-	}
+	}*/
 
 
 	public static void multiSelect( Object locator,  String... textItems) throws Exception {
