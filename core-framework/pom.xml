@@ -249,13 +249,12 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>3.1.2</version>
-					<configuration>
-						<excludes>
-          					<suiteXmlFiles>
-							 <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
-						    </suiteXmlFiles>
-          				</excludes>
-					</configuration>
+						<configuration>
+						  	<excludes>
+					        	<exclude>**/**.xml</exclude>
+					         	<exclude>**/**.java</exclude>
+					       	</excludes>
+						</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
