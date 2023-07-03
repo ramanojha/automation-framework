@@ -1,4 +1,4 @@
-package com.myproject.qa.testing.framework;
+package com.myproject.qa.testing.sanity.test;
 
 import java.io.IOException;
 import java.util.HashMap;
