@@ -72,7 +72,7 @@ public class FileUtils {
 	public static String getMavenProjectPath(String projectName){
 		String path = System.getProperty("user.dir");
 		try {
-			return path.substring(0, path.lastIndexOf("\\")+1)+projectName;
+			return path.substring(0, path.lastIndexOf(File.separator)+1)+projectName;
 		} catch (Exception e) {
 			throw new FrameworkException(e, projectName=" is not in same workspace");
 		}		
@@ -223,15 +223,15 @@ public class FileUtils {
 	
 	@Aim("To get the PDF ArtifactName")
 	public static String getPdfArtifactName(String fileName) {
-		String directoryPath = fileName.substring(0, fileName.lastIndexOf('\\'));
+		String directoryPath = fileName.substring(0, fileName.lastIndexOf(File.separator));
 		createDirectoryIfNotExist(directoryPath);
 		String reportName = fileName
-				.substring(fileName.lastIndexOf('\\')+1, fileName.length())
-				.split("\\.")[0]
+				.substring(fileName.lastIndexOf(File.separator)+1, fileName.length())
+				.split(File.separator)[0]
 				.toUpperCase()+".pdf";
 				
 				
-		return directoryPath+"\\"+reportName;
+		return directoryPath+File.separator+reportName;
 	}
 }
 

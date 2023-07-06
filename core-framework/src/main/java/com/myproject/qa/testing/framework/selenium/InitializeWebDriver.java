@@ -42,7 +42,7 @@ public class InitializeWebDriver {
 				prefs.put("profile.default_content_settings.popups", 0);
 				prefs.put("profile.default_content_setting_values.automatic_downloads", 1 );
 				prefs.put("download.prompt_for_download", false);
-				prefs.put("download.default_directory", "C:\\TestData\\Downloads");
+				//prefs.put("download.default_directory", "C:\\TestData\\Downloads");
 				options.setExperimentalOption("prefs", prefs);
 				//ChromeDriver d  = new ChromeDriver(service, options); 
 				//System.out.println(d.getCapabilities().getCapability("goog:chromeOptions"));

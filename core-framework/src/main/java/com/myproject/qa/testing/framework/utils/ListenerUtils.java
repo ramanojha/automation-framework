@@ -560,7 +560,7 @@ public class ListenerUtils {
 			String endTime = DateUtils.getMillisToTimeStamp(res.getEndMillis());
 
 			long seconds = DateUtils.getDifferenceInDates(startTime, endTime);
-			String[] classNames = res.getTestClass().getName().split("\\.");
+			String[] classNames = res.getTestClass().getName().split(File.separator);
 			String className = classNames[classNames.length-1];
 			String methodName = res.getMethod().getMethodName();
 			String status = getStatus(res.getStatus());
@@ -651,7 +651,7 @@ public class ListenerUtils {
 	@Aim("To create report name based on Test Suite directory")
 	public static String getReportName(String suiteFileName) {
 		return suiteFileName
-				.replace(System.getProperty("user.dir"), System.getProperty("user.dir")+"\\target")
+				.replace(System.getProperty("user.dir"), System.getProperty("user.dir")+File.separator+"target")
 				.replace(".xml", ".pdf");
 	}
 }

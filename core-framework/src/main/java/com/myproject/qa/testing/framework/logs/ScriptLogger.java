@@ -1,5 +1,6 @@
 package com.myproject.qa.testing.framework.logs;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -16,9 +17,8 @@ public class ScriptLogger {
 		
 		static{
 			setHostNameInLog4jProperties();
-			PropertyConfigurator.configure(FileUtils.getMavenProjectPath("core-framework")+"\\resources\\log4j.properties");
+			PropertyConfigurator.configure(FileUtils.getMavenProjectPath("core-framework")+File.separator+"resources"+File.separator+"log4j.properties");
 			logger = Logger.getLogger(ScriptLogger.class);
-			//logger.info("Test Running on.. - "+System.getProperty("hostName").split("\\.")[0]);
 		}
 		
 		public static void info(){
